@@ -1,0 +1,2982 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#100c16">
+<title>JAORICHE STUDIO16</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
+<!-- บันทึกใบเสร็จเป็นรูปภาพ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+:root {
+  --bg:#100c16;
+  --bg2:#17111f;
+  --card:#211829;
+  --card2:#291e32;
+  --pink:#e7a9ce;
+  --pink2:#bd80b3;
+  --purple:#a995d4;
+  --text:#f5eaf5;
+  --muted:#ad9bb3;
+  --line:#44334e;
+  --danger:#e47b91;
+  --success:#9bc6aa;
+  --radius:20px;
+  --shadow:0 12px 35px rgba(0,0,0,.3);
+}
+
+* {
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  margin:0;
+  min-height:100vh;
+  padding-bottom:110px;
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(129,78,142,.15),transparent 35%),
+    radial-gradient(ellipse at 100% 40%,rgba(202,115,170,.08),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Prompt',sans-serif;
+  font-size:14px;
+}
+
+button,input,textarea,select {
+  font:inherit;
+}
+
+button {
+  cursor:pointer;
+}
+
+button:disabled {
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+img {
+  max-width:100%;
+}
+
+.hidden {
+  display:none!important;
+}
+
+.container {
+  width:min(1100px,100%);
+  margin:auto;
+  padding:16px;
+}
+
+/* HEADER */
+
+.shop-header {
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:26px;
+  padding:24px 18px;
+  text-align:center;
+  background:
+    linear-gradient(135deg,rgba(98,60,112,.35),rgba(28,19,37,.95)),
+    var(--card);
+  box-shadow:var(--shadow);
+}
+
+.shop-header:before {
+  content:"✦  ·  ☾  ·  ✧  ·  ♡  ·  ✦";
+  position:absolute;
+  top:10px;
+  left:0;
+  width:100%;
+  color:rgba(231,169,206,.3);
+  letter-spacing:9px;
+  font-size:12px;
+}
+
+.shop-avatar {
+  width:100px;
+  height:100px;
+  margin:10px auto 12px;
+  border-radius:50%;
+  border:3px solid var(--pink);
+  background:var(--card2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  box-shadow:0 0 25px rgba(231,169,206,.2);
+}
+
+.shop-avatar img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.shop-avatar span {
+  font-size:35px;
+  color:var(--pink);
+}
+
+.shop-name {
+  margin:0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(29px,7vw,43px);
+  letter-spacing:2px;
+  color:var(--pink);
+  text-shadow:0 0 18px rgba(231,169,206,.2);
+}
+
+.shop-subtitle {
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:3px;
+  margin-top:5px;
+}
+
+.shop-description {
+  color:#d6c2d8;
+  font-size:12px;
+  margin-top:12px;
+  white-space:pre-wrap;
+}
+
+/* CONTACTS */
+
+.contact-section {
+  margin:18px 0 24px;
+  text-align:center;
+}
+
+.section-heading {
+  color:var(--pink);
+  font-family:'Cormorant Garamond',serif;
+  font-size:23px;
+  letter-spacing:1px;
+  margin:0 0 12px;
+}
+
+.contact-list {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.contact-btn {
+  width:46px;
+  height:46px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--pink);
+  background:var(--card);
+  font-size:19px;
+  text-decoration:none;
+  transition:.2s;
+}
+
+.contact-btn:hover {
+  transform:translateY(-3px);
+  background:var(--card2);
+  border-color:var(--pink);
+}
+
+/* COMMON */
+
+.panel {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+}
+
+.section-title {
+  font-size:19px;
+  font-weight:600;
+  color:var(--pink);
+  margin:0 0 15px;
+}
+
+.muted {
+  color:var(--muted);
+}
+
+.small {
+  font-size:11px;
+}
+
+.btn {
+  border:1px solid var(--line);
+  color:var(--text);
+  background:var(--card2);
+  border-radius:13px;
+  padding:10px 15px;
+  transition:.2s;
+}
+
+.btn:hover {
+  border-color:var(--pink);
+  transform:translateY(-1px);
+}
+
+.btn-primary {
+  background:linear-gradient(135deg,#a66b9d,#765c9d);
+  color:white;
+  border:0;
+  font-weight:500;
+}
+
+.btn-danger {
+  color:#ffc0ca;
+  border-color:#764050;
+  background:#38202c;
+}
+
+.btn-success {
+  color:#c2edce;
+  border-color:#45674f;
+}
+
+.btn-block {
+  width:100%;
+}
+
+.btn-small {
+  padding:6px 10px;
+  font-size:12px;
+  border-radius:9px;
+}
+
+.input-group {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:13px;
+}
+
+.input-group label {
+  color:#d7bfdc;
+  font-size:12px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select,
+.search-input {
+  width:100%;
+  padding:12px;
+  color:var(--text);
+  background:#120e18;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+}
+
+.input-group textarea {
+  min-height:90px;
+  resize:vertical;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  border-color:var(--pink);
+}
+
+.input-group input[type="file"] {
+  padding:9px;
+  font-size:12px;
+}
+
+.input-group input[type="checkbox"] {
+  width:auto;
+  accent-color:var(--pink);
+}
+
+.two-columns {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.divider {
+  height:1px;
+  background:var(--line);
+  margin:15px 0;
+}
+
+/* PRODUCT FILTER */
+
+.filter-area {
+  margin-bottom:15px;
+}
+
+.tag-filters {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.tag-filter {
+  padding:7px 13px;
+  border-radius:30px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--muted);
+  font-size:11px;
+}
+
+.tag-filter.active {
+  background:#583b5c;
+  border-color:var(--pink);
+  color:#fff;
+}
+
+/* PRODUCT GRID */
+
+.product-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.product-card {
+  min-width:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:linear-gradient(160deg,#261b30,#18121f);
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+
+.product-image-wrap {
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  background:#120e18;
+  cursor:pointer;
+}
+
+.product-image {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.no-image {
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-size:35px;
+}
+
+.product-badges {
+  position:absolute;
+  top:8px;
+  left:8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  max-width:78%;
+  pointer-events:none;
+}
+
+.product-badge {
+  padding:4px 8px;
+  font-size:9px;
+  border-radius:20px;
+  color:white;
+  background:#75476e;
+  box-shadow:0 3px 8px #0005;
+}
+
+.product-badge.hit {
+  background:#9d455c;
+}
+
+.product-badge.recommend {
+  background:#65538e;
+}
+
+.product-badge.promotion {
+  background:#b56a42;
+}
+
+.drive-btn {
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:35px;
+  height:35px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+  border:1px solid #ffffff55;
+  background:#17111fdd;
+  color:#fff;
+  text-decoration:none;
+  font-size:15px;
+  z-index:2;
+}
+
+.product-info {
+  padding:11px;
+}
+
+.product-name {
+  font-weight:500;
+  font-size:13px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.product-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:7px;
+}
+
+.product-tag {
+  color:#d9b9d9;
+  background:#49344e;
+  padding:3px 7px;
+  border-radius:7px;
+  font-size:9px;
+}
+
+.product-price {
+  color:var(--pink);
+  font-weight:600;
+  font-size:15px;
+  margin:9px 0;
+}
+
+.add-cart-btn {
+  width:100%;
+  border:0;
+  border-radius:10px;
+  background:linear-gradient(120deg,#9b689b,#755d9e);
+  color:white;
+  padding:9px;
+  font-size:12px;
+}
+
+/* CART */
+
+.cart-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.cart-thumb {
+  width:58px;
+  height:58px;
+  flex-shrink:0;
+  border-radius:11px;
+  object-fit:cover;
+  background:#120e18;
+}
+
+.cart-main {
+  flex:1;
+  min-width:0;
+}
+
+.cart-name {
+  font-size:12px;
+  font-weight:500;
+}
+
+.cart-price {
+  color:var(--pink);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.quantity-control {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:7px;
+}
+
+.quantity-control button {
+  width:25px;
+  height:25px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  color:var(--text);
+  background:var(--card2);
+}
+
+.cart-total {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 0;
+  color:#e8d8e8;
+}
+
+.cart-total.final {
+  border-top:1px dashed var(--pink);
+  margin-top:8px;
+  padding-top:14px;
+  color:var(--pink);
+  font-size:18px;
+  font-weight:600;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+  position:fixed;
+  z-index:50;
+  left:50%;
+  bottom:max(12px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  width:min(420px,calc(100% - 30px));
+  padding:9px 12px;
+  border:1px solid #775a7e;
+  border-radius:25px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:rgba(29,20,36,.96);
+  backdrop-filter:blur(18px);
+  box-shadow:0 10px 35px #0009;
+}
+
+.nav-btn {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:7px 4px;
+  font-size:10px;
+}
+
+.nav-btn .nav-icon {
+  font-size:21px;
+}
+
+.nav-btn.active {
+  color:var(--pink);
+}
+
+.cart-count {
+  position:absolute;
+  top:0;
+  left:calc(50% + 8px);
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#d76d9b;
+  color:white;
+  font-size:9px;
+  border-radius:20px;
+}
+
+/* MODAL */
+
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#08060bdc;
+  backdrop-filter:blur(5px);
+}
+
+.modal-box {
+  width:min(480px,100%);
+  max-height:88vh;
+  overflow-y:auto;
+  padding:19px;
+  background:#201729;
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+
+.modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.modal-title {
+  font-size:19px;
+  color:var(--pink);
+  margin:0;
+}
+
+.close-btn {
+  border:0;
+  background:transparent;
+  color:var(--pink);
+  font-size:24px;
+}
+
+/* PRODUCT DETAIL */
+
+.detail-image {
+  width:100%;
+  max-height:320px;
+  object-fit:contain;
+  border-radius:15px;
+  background:#120e18;
+}
+
+.detail-description {
+  color:#d8c8dc;
+  white-space:pre-wrap;
+  line-height:1.8;
+  font-size:13px;
+  margin:14px 0;
+}
+
+/* ADMIN */
+
+.admin-tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:15px;
+}
+
+.admin-tab {
+  border:1px solid var(--line);
+  color:var(--muted);
+  background:#17111f;
+  border-radius:10px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+.admin-tab.active {
+  border-color:var(--pink);
+  color:var(--pink);
+  background:#39263f;
+}
+
+.admin-product-row,
+.history-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.admin-product-row img {
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.admin-product-info {
+  flex:1;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+
+.admin-actions {
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+
+/* RECEIPT */
+
+.receipt-area {
+  background:#17111f;
+  padding:12px;
+  border-radius:15px;
+}
+
+.receipt {
+  width:100%;
+  max-width:400px;
+  margin:auto;
+  padding:24px 18px;
+  color:#f7eaf4;
+  background:linear-gradient(160deg,#251b30,#110d18);
+  border:1px solid #77567d;
+  border-radius:13px;
+  font-family:'Prompt',sans-serif;
+}
+
+.receipt-top {
+  text-align:center;
+  border-bottom:1px dashed #a47ca4;
+  padding-bottom:15px;
+}
+
+.receipt-logo {
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid var(--pink);
+}
+
+.receipt-shop-name {
+  color:#f0b8db;
+  font-family:'Cormorant Garamond',serif;
+  font-size:25px;
+  letter-spacing:1px;
+  margin:8px 0 3px;
+}
+
+.receipt-caption {
+  color:#c3a7c9;
+  font-size:10px;
+}
+
+.receipt-number {
+  font-size:10px;
+  color:#d3bed7;
+  margin-top:12px;
+}
+
+.receipt-items {
+  padding:12px 0;
+  border-bottom:1px dashed #a47ca4;
+}
+
+.receipt-item {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:6px 0;
+  font-size:11px;
+}
+
+.receipt-item span:first-child {
+  flex:1;
+  overflow-wrap:anywhere;
+}
+
+.receipt-summary {
+  padding-top:12px;
+}
+
+.receipt-summary .cart-total {
+  font-size:12px;
+}
+
+.receipt-qr {
+  margin-top:18px;
+  text-align:center;
+  padding-top:15px;
+  border-top:1px dashed #a47ca4;
+}
+
+.receipt-qr img {
+  display:block;
+  width:210px;
+  height:210px;
+  object-fit:contain;
+  margin:12px auto;
+  padding:7px;
+  border-radius:10px;
+  background:white;
+}
+
+.receipt-footer {
+  text-align:center;
+  color:#d5b6d0;
+  font-size:10px;
+  margin-top:17px;
+  white-space:pre-wrap;
+}
+
+/* HISTORY */
+
+.history-row {
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.history-info {
+  flex:1;
+  min-width:150px;
+}
+
+/* TOAST */
+
+.toast {
+  position:fixed;
+  z-index:200;
+  bottom:100px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:11px 18px;
+  border:1px solid var(--pink);
+  border-radius:30px;
+  background:#38253e;
+  color:white;
+  font-size:12px;
+  box-shadow:var(--shadow);
+  animation:toastIn .25s ease;
+  max-width:90%;
+  text-align:center;
+}
+
+@keyframes toastIn {
+  from {opacity:0;transform:translate(-50%,10px)}
+  to {opacity:1;transform:translate(-50%,0)}
+}
+
+.empty-state {
+  text-align:center;
+  padding:35px 12px;
+  color:var(--muted);
+}
+
+.empty-state .symbol {
+  font-size:38px;
+  color:var(--pink);
+  margin-bottom:8px;
+}
+
+.loading {
+  text-align:center;
+  padding:25px;
+  color:var(--pink);
+}
+
+.status-line {
+  font-size:11px;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.status-line.online {
+  color:var(--success);
+}
+
+@media(min-width:650px) {
+  .container {padding:24px}
+  .product-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .product-info {padding:14px}
+}
+
+@media(min-width:900px) {
+  .product-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+@media(max-width:360px) {
+  .product-grid {gap:8px}
+  .product-info {padding:8px}
+  .product-name {font-size:11px}
+  .product-price {font-size:13px}
+  .two-columns {grid-template-columns:1fr}
+}
+
+@media print {
+  body {background:white}
+  .receipt {box-shadow:none}
+}
+</style>
+</head>
+<body>
+  
+<div class="container">
+
+  <!-- SHOP HEADER -->
+  <header class="shop-header">
+    <div class="shop-avatar" id="shopAvatar">
+      <span>♡</span>
+    </div>
+    <h1 class="shop-name" id="shopName">JAORICHE STUDIO16</h1>
+    <div class="shop-subtitle">DARKNESS • BEAUTY • LOVE</div>
+    <div class="shop-description" id="shopDescription">
+      Welcome to my little gothic world ♡
+    </div>
+  </header>
+
+  <!-- CONTACT CHANNELS -->
+  <section class="contact-section">
+    <h2 class="section-heading">✧ CONTACT US ✧</h2>
+    <div class="contact-list" id="contactList"></div>
+  </section>
+
+  <!-- SHOP PAGE -->
+  <section id="shopPage">
+    <h2 class="section-title">☾ Our Collection</h2>
+
+    <div class="filter-area">
+      <input
+        class="search-input"
+        id="searchInput"
+        type="search"
+        placeholder="⌕ ค้นหาสินค้า..."
+      >
+      <div class="tag-filters" id="tagFilters">
+        <button class="tag-filter active" data-tag="all">
+          ทั้งหมด
+        </button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="symbol">☾</div>
+        กำลังโหลดสินค้า...
+      </div>
+    </div>
+  </section>
+
+  <!-- CART PAGE -->
+  <section id="cartPage" class="hidden">
+    <h2 class="section-title">♡ Shopping Cart</h2>
+
+    <div class="panel">
+      <div id="cartItems"></div>
+
+      <div id="cartEmpty" class="empty-state">
+        <div class="symbol">♡</div>
+        ยังไม่มีสินค้าในตะกร้า
+      </div>
+
+      <div id="cartSummary" class="hidden">
+        <div class="divider"></div>
+        <div class="cart-total">
+          <span>จำนวนสินค้า</span>
+          <span id="cartQuantity">0 ชิ้น</span>
+        </div>
+        <div class="cart-total final">
+          <span>ยอดรวมสุทธิ</span>
+          <span id="cartTotal">฿0.00</span>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="createReceiptBtn">
+          ♡ สร้างใบเสร็จ
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETTINGS PAGE -->
+  <section id="settingsPage" class="hidden">
+    <h2 class="section-title">⚙ Settings</h2>
+
+    <div class="panel">
+      <h3 class="section-title">Admin Control</h3>
+      <div id="adminLoginArea">
+        <div class="input-group">
+          <label>รหัสผ่านแอดมิน</label>
+          <input
+            id="adminPassword"
+            type="password"
+            placeholder="กรอกรหัสผ่าน"
+          >
+        </div>
+        <button class="btn btn-primary btn-block" id="adminLoginBtn">
+          ♡ เข้าสู่ระบบแอดมิน
+        </button>
+      </div>
+
+      <div id="adminDashboard" class="hidden">
+        <div class="status-line online">
+          ● เข้าสู่ระบบแอดมินแล้ว
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-admin-tab="products">
+            สินค้า
+          </button>
+          <button class="admin-tab" data-admin-tab="store">
+            ร้านค้า
+          </button>
+          <button class="admin-tab" data-admin-tab="contacts">
+            ติดต่อ
+          </button>
+          <button class="admin-tab" data-admin-tab="qr">
+            QR Code
+          </button>
+          <button class="admin-tab" data-admin-tab="history">
+            ประวัติ
+          </button>
+        </div>
+
+        <!-- ADMIN PRODUCTS -->
+        <div id="adminProductsTab">
+
+          <h3 class="section-title">✧ เพิ่ม / จัดการสินค้า</h3>
+
+          <form id="productForm">
+
+            <input type="hidden" id="editProductId">
+
+            <div class="input-group">
+              <label>ชื่อสินค้า *</label>
+              <input
+                id="productNameInput"
+                type="text"
+                maxlength="100"
+                required
+                placeholder="ชื่อสินค้า"
+              >
+            </div>
+
+            <div class="two-columns">
+              <div class="input-group">
+                <label>ราคาสินค้า (บาท) *</label>
+                <input
+                  id="productPriceInput"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  required
+                  placeholder="0.00"
+                >
+              </div>
+
+              <div class="input-group">
+                <label>รูปสินค้า</label>
+                <input
+                  id="productImageInput"
+                  type="file"
+                  accept="image/*"
+                >
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>รายละเอียดสินค้า</label>
+              <textarea
+                id="productDescriptionInput"
+                placeholder="รายละเอียดสินค้า..."
+              ></textarea>
+            </div>
+
+            <div class="input-group">
+              <label>แท็กประเภทสินค้า (คั่นด้วยเครื่องหมาย ,)</label>
+              <input
+                id="productTagsInput"
+                placeholder="เช่น เสื้อผ้า, ของสะสม, งานดิจิทัล"
+              >
+            </div>
+
+            <div class="input-group">
+              <label>ป้ายสินค้าพิเศษ</label>
+
+              <label>
+                <input type="checkbox" id="badgeHit">
+                🔥 สินค้าฮิต
+              </label>
+
+              <label>
+                <input type="checkbox" id="badgeRecommend">
+                ♡ แนะนำ
+              </label>
+
+              <label>
+                <input type="checkbox" id="badgePromotion">
+                SALE โปรโมชั่น
+              </label>
+            </div>
+
+            <div class="input-group">
+              <label>ลิงก์ Google Drive ของสินค้า</label>
+              <input
+                id="productDriveInput"
+                type="url"
+                placeholder="https://drive.google.com/..."
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="saveProductBtn"
+            >
+              ✧ บันทึกสินค้า
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-block hidden"
+              id="cancelEditBtn"
+            >
+              ยกเลิกการแก้ไข
+            </button>
+          </form>
+
+          <div class="divider"></div>
+
+          <h3 class="section-title">รายการสินค้าทั้งหมด</h3>
+          <div id="adminProductList"></div>
+        </div>
+
+        <!-- ADMIN STORE -->
+        <div id="adminStoreTab" class="hidden">
+
+          <h3 class="section-title">♡ ตั้งค่าร้านค้า</h3>
+
+          <div class="input-group">
+            <label>ชื่อร้าน</label>
+            <input id="storeNameInput" value="JAORICHE STUDIO16">
+          </div>
+
+          <div class="input-group">
+            <label>คำอธิบายร้าน</label>
+            <textarea
+              id="storeDescriptionInput"
+              placeholder="คำอธิบายร้าน..."
+            ></textarea>
+          </div>
+
+          <div class="input-group">
+            <label>รูปโปรไฟล์ร้าน</label>
+            <input id="storeAvatarInput" type="file" accept="image/*">
+          </div>
+
+          <button class="btn btn-primary btn-block" id="saveStoreBtn">
+            บันทึกข้อมูลร้าน
+          </button>
+        </div>
+
+        <!-- ADMIN CONTACTS -->
+        <div id="adminContactsTab" class="hidden">
+
+          <h3 class="section-title">✧ ช่องทางติดต่อ</h3>
+
+          <form id="contactForm">
+            <div class="input-group">
+              <label>ชื่อช่องทาง</label>
+              <input
+                id="contactNameInput"
+                required
+                placeholder="เช่น Instagram"
+              >
+            </div>
+
+            <div class="input-group">
+              <label>สัญลักษณ์ / Emoji</label>
+              <input
+                id="contactIconInput"
+                maxlength="8"
+                placeholder="เช่น 📷"
+              >
+            </div>
+
+            <div class="input-group">
+              <label>ลิงก์</label>
+              <input
+                id="contactUrlInput"
+                type="url"
+                required
+                placeholder="https://..."
+              >
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">
+              + เพิ่มช่องทางติดต่อ
+            </button>
+          </form>
+
+          <div class="divider"></div>
+          <div id="adminContactList"></div>
+        </div>
+
+        <!-- ADMIN QR -->
+        <div id="adminQrTab" class="hidden">
+
+          <h3 class="section-title">♡ QR Code ใบเสร็จ</h3>
+
+          <div class="input-group">
+            <label>อัปโหลด QR Code</label>
+            <input id="qrImageInput" type="file" accept="image/*">
+          </div>
+
+          <div class="input-group">
+            <label>หรือใส่ลิงก์รูป QR Code</label>
+            <input
+              id="qrUrlInput"
+              type="url"
+              placeholder="https://..."
+            >
+          </div>
+
+          <div id="qrPreview" style="text-align:center"></div>
+
+          <button class="btn btn-primary btn-block" id="saveQrBtn">
+            บันทึก QR Code
+          </button>
+        </div>
+
+        <!-- ADMIN HISTORY -->
+        <div id="adminHistoryTab" class="hidden">
+
+          <h3 class="section-title">✧ Receipt History</h3>
+
+          <div id="receiptHistory"></div>
+
+          <button
+            class="btn btn-danger btn-block"
+            id="clearHistoryBtn"
+          >
+            ลบประวัติใบเสร็จทั้งหมด
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <button class="btn btn-danger btn-block" id="adminLogoutBtn">
+          ออกจากระบบแอดมิน
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECEIPT MODAL -->
+  <div class="modal hidden" id="receiptModal">
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <h2 class="modal-title">♡ Your Receipt</h2>
+        <button class="close-btn" id="closeReceiptBtn">×</button>
+      </div>
+
+      <div class="receipt-area">
+        <div class="receipt" id="receiptContent">
+
+          <div class="receipt-top">
+            <img
+              class="receipt-logo hidden"
+              id="receiptLogo"
+              alt="Shop Logo"
+            >
+
+            <div class="receipt-shop-name" id="receiptShopName">
+              JAORICHE STUDIO16
+            </div>
+
+            <div class="receipt-caption">
+              THANK YOU FOR YOUR ORDER ♡
+            </div>
+
+            <div class="receipt-number" id="receiptNumber"></div>
+            <div class="receipt-number" id="receiptDate"></div>
+          </div>
+
+          <div class="receipt-items" id="receiptItems"></div>
+
+          <div class="receipt-summary">
+            <div class="cart-total">
+              <span>จำนวนสินค้า</span>
+              <span id="receiptQuantity">0 ชิ้น</span>
+            </div>
+
+            <div class="cart-total final">
+              <span>ยอดรวมสุทธิ</span>
+              <span id="receiptTotal">฿0.00</span>
+            </div>
+          </div>
+
+          <div class="receipt-qr hidden" id="receiptQrArea">
+            <div style="color:#efb9dc;font-size:13px">
+              ♡ PAYMENT QR CODE ♡
+            </div>
+            <img id="receiptQrImage" alt="Payment QR Code">
+            <div class="receipt-caption">
+              SCAN TO PAY
+            </div>
+          </div>
+
+          <div class="receipt-footer">
+            Thank you for supporting our little shop ♡
+            JAORICHE STUDIO16
+          </div>
+
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button class="btn btn-primary btn-block" id="downloadReceiptBtn">
+        ↓ บันทึกรูปใบเสร็จลงเครื่อง
+      </button>
+
+      <button class="btn btn-block" id="finishReceiptBtn" style="margin-top:9px">
+        ปิดใบเสร็จ
+      </button>
+
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div class="modal hidden" id="productDetailModal">
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <h2 class="modal-title">♡ Product Detail</h2>
+        <button class="close-btn" id="closeDetailBtn">×</button>
+      </div>
+
+      <div id="productDetailContent"></div>
+
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MESSAGE / TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+</div>
+
+<!-- BOTTOM MENU -->
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-page="shopPage">
+    <span class="nav-icon">♱</span>
+    <span>สินค้า</span>
+  </button>
+
+  <button class="nav-btn" data-page="cartPage">
+    <span class="nav-icon">♡</span>
+    <span>ตะกร้าสินค้า</span>
+    <span class="cart-count hidden" id="navCartCount">0</span>
+  </button>
+
+  <button class="nav-btn" data-page="settingsPage">
+    <span class="nav-icon">⚙</span>
+    <span>ตั้งค่า</span>
+  </button>
+
+</nav>
+
+<script>
+/* =========================================
+   JAORICHE STUDIO16
+   PART 3 : SHOP ENGINE
+========================================= */
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+  databaseURL: "https://zzzzz-6-93901-default-rtdb.firebaseio.com/"
+};
+
+let db = null;
+let firebaseReady = false;
+
+try {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  db = firebase.database();
+  firebaseReady = true;
+
+} catch (error) {
+  console.error("Firebase initialization:", error);
+}
+
+/* DATABASE PATH */
+
+const ROOT = "JAORICHE_STUDIO16";
+
+const DB = {
+  products: ROOT + "/products",
+  store: ROOT + "/store",
+  contacts: ROOT + "/contacts",
+  qr: ROOT + "/qr",
+  receipts: ROOT + "/receipts"
+};
+
+/* APP STATE */
+
+let products = [];
+let contacts = [];
+let cart = {};
+let storeData = {
+  name: "JAORICHE STUDIO16",
+  description: "Welcome to my little gothic world ♡",
+  avatar: ""
+};
+
+let qrImage = "";
+let selectedTag = "all";
+let currentReceipt = null;
+let adminLoggedIn = false;
+let editingProduct = null;
+let pendingProductImage = null;
+let pendingAvatar = null;
+let pendingQR = null;
+
+/* HELPERS */
+
+const $ = id => document.getElementById(id);
+
+function money(value) {
+  return Number(value || 0).toLocaleString("th-TH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+function safeUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      return url.href;
+    }
+  } catch (e) {}
+  return "";
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer = setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 2600);
+}
+
+function makeId() {
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 8);
+}
+
+function getImagePlaceholder() {
+  return "";
+}
+
+/* DATABASE HELPERS */
+
+function dbRef(path) {
+  if (!db) throw new Error("Firebase ยังไม่ได้เชื่อมต่อ");
+  return db.ref(path);
+}
+
+async function dbGet(path) {
+  const snapshot = await dbRef(path).once("value");
+  return snapshot.val();
+}
+
+async function dbSet(path, value) {
+  await dbRef(path).set(value);
+}
+
+async function dbUpdate(path, value) {
+  await dbRef(path).update(value);
+}
+
+async function dbRemove(path) {
+  await dbRef(path).remove();
+}
+
+/* IMAGE COMPRESSION
+   ลดขนาดรูปก่อนเก็บเป็น Data URL
+*/
+
+function compressImage(file, maxSize = 1000, quality = 0.78) {
+  return new Promise((resolve, reject) => {
+
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("กรุณาเลือกรูปภาพ"));
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = event => {
+      const img = new Image();
+
+      img.onload = () => {
+        const scale = Math.min(
+          1,
+          maxSize / Math.max(img.width, img.height)
+        );
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        resolve(
+          canvas.toDataURL("image/jpeg", quality)
+        );
+      };
+
+      img.onerror = () => reject(new Error("อ่านรูปภาพไม่ได้"));
+      img.src = event.target.result;
+    };
+
+    reader.onerror = () => reject(new Error("เปิดไฟล์ไม่ได้"));
+    reader.readAsDataURL(file);
+  });
+}
+
+/* LOAD DATABASE */
+
+async function loadAllData() {
+
+  if (!firebaseReady) {
+    showToast("Firebase ยังไม่พร้อมใช้งาน");
+    return;
+  }
+
+  try {
+
+    const results = await Promise.all([
+      dbGet(DB.products),
+      dbGet(DB.store),
+      dbGet(DB.contacts),
+      dbGet(DB.qr)
+    ]);
+
+    const productData = results[0] || {};
+    const store = results[1] || {};
+    const contactData = results[2] || {};
+    const qr = results[3] || "";
+
+    products = Object.entries(productData).map(([id, item]) => ({
+      id,
+      ...item
+    }));
+
+    storeData = {
+      ...storeData,
+      ...store
+    };
+
+    contacts = Object.entries(contactData).map(([id, item]) => ({
+      id,
+      ...item
+    }));
+
+    qrImage = typeof qr === "string" ? qr : "";
+
+    renderStore();
+    renderProducts();
+    renderContacts();
+    renderAdminProducts();
+    renderAdminContacts();
+    renderCart();
+
+    $("statusLine")?.classList.add("online");
+
+  } catch (error) {
+    console.error(error);
+    showToast("โหลดข้อมูลไม่สำเร็จ กรุณาตรวจสอบ Firebase Rules");
+  }
+}
+
+/* SHOP HEADER */
+
+function renderStore() {
+
+  $("shopName").textContent =
+    storeData.name || "JAORICHE STUDIO16";
+
+  $("shopDescription").textContent =
+    storeData.description || "";
+
+  const avatar = $("shopAvatar");
+
+  if (storeData.avatar) {
+    avatar.innerHTML =
+      `<img src="${storeData.avatar}" alt="Shop Avatar">`;
+  } else {
+    avatar.innerHTML = "<span>♡</span>";
+  }
+
+  $("storeNameInput").value =
+    storeData.name || "JAORICHE STUDIO16";
+
+  $("storeDescriptionInput").value =
+    storeData.description || "";
+
+  $("qrUrlInput").value =
+    qrImage.startsWith("http") ? qrImage : "";
+
+  renderReceiptQRPreview();
+}
+
+/* CONTACTS */
+
+function renderContacts() {
+
+  const list = $("contactList");
+
+  list.innerHTML = contacts.map(contact => {
+
+    const url = safeUrl(contact.url);
+
+    if (!url) return "";
+
+    return `
+      <a class="contact-btn"
+         href="${escapeHTML(url)}"
+         target="_blank"
+         rel="noopener noreferrer"
+         title="${escapeHTML(contact.name)}">
+        ${escapeHTML(contact.icon || "♡")}
+      </a>
+    `;
+
+  }).join("");
+}
+
+function renderAdminContacts() {
+
+  const list = $("adminContactList");
+
+  if (!list) return;
+
+  if (!contacts.length) {
+    list.innerHTML =
+      '<div class="empty-state">ยังไม่มีช่องทางติดต่อ</div>';
+    return;
+  }
+
+  list.innerHTML = contacts.map(contact => `
+    <div class="admin-product-row">
+      <div style="font-size:23px">
+        ${escapeHTML(contact.icon || "♡")}
+      </div>
+
+      <div class="admin-product-info">
+        <div>${escapeHTML(contact.name)}</div>
+        <div class="muted small">
+          ${escapeHTML(contact.url)}
+        </div>
+      </div>
+
+      <button
+        class="btn btn-danger btn-small"
+        onclick="deleteContact('${contact.id}')">
+        ลบ
+      </button>
+    </div>
+  `).join("");
+}
+
+/* PRODUCT BADGES */
+
+function getBadges(product) {
+
+  let html = "";
+
+  if (product.hit) {
+    html += '<span class="product-badge hit">🔥 HIT</span>';
+  }
+
+  if (product.recommend) {
+    html += '<span class="product-badge recommend">♡ RECOMMEND</span>';
+  }
+
+  if (product.promotion) {
+    html += '<span class="product-badge promotion">SALE</span>';
+  }
+
+  return html;
+}
+
+/* PRODUCT TAGS */
+
+function getAllTags() {
+
+  const tags = new Set();
+
+  products.forEach(product => {
+    (product.tags || []).forEach(tag => {
+      if (tag) tags.add(tag);
+    });
+  });
+
+  return [...tags];
+}
+
+function renderTagFilters() {
+
+  const tags = getAllTags();
+
+  $("tagFilters").innerHTML = `
+    <button
+      class="tag-filter ${selectedTag === "all" ? "active" : ""}"
+      data-tag="all">
+      ทั้งหมด
+    </button>
+
+    ${tags.map(tag => `
+      <button
+        class="tag-filter ${selectedTag === tag ? "active" : ""}"
+        data-tag="${escapeHTML(tag)}">
+        ${escapeHTML(tag)}
+      </button>
+    `).join("")}
+  `;
+}
+
+/* PRODUCT GRID */
+
+function renderProducts() {
+
+  const grid = $("productGrid");
+
+  const keyword =
+    $("searchInput").value.trim().toLowerCase();
+
+  const filtered = products.filter(product => {
+
+    const matchesSearch =
+      (product.name || "").toLowerCase().includes(keyword);
+
+    const matchesTag =
+      selectedTag === "all" ||
+      (product.tags || []).includes(selectedTag);
+
+    return matchesSearch && matchesTag;
+  });
+
+  renderTagFilters();
+
+  if (!filtered.length) {
+
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="symbol">☾</div>
+        ไม่พบสินค้าในขณะนี้
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML = filtered.map(product => {
+
+    const image = product.image
+      ? `<img class="product-image"
+              src="${product.image}"
+              alt="${escapeHTML(product.name)}"
+              loading="lazy">`
+      : `<div class="no-image">♡</div>`;
+
+    const driveUrl = safeUrl(product.drive);
+
+    return `
+      <article class="product-card">
+
+        <div class="product-image-wrap"
+             onclick="openProductDetail('${product.id}')">
+
+          ${image}
+
+          <div class="product-badges">
+            ${getBadges(product)}
+          </div>
+
+          ${
+            driveUrl
+              ? `<a class="drive-btn"
+                    href="${escapeHTML(driveUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onclick="event.stopPropagation()"
+                    title="เปิด Google Drive">
+                    ↗
+                 </a>`
+              : ""
+          }
+
+        </div>
+
+        <div class="product-info">
+
+          <div class="product-name">
+            ${escapeHTML(product.name)}
+          </div>
+
+          <div class="product-tags">
+            ${(product.tags || []).map(tag => `
+              <span class="product-tag">
+                ${escapeHTML(tag)}
+              </span>
+            `).join("")}
+          </div>
+
+          <div class="product-price">
+            ฿${money(product.price)}
+          </div>
+
+          <button
+            class="add-cart-btn"
+            onclick="addToCart('${product.id}')">
+            + เพิ่มลงตะกร้า
+          </button>
+
+        </div>
+      </article>
+    `;
+
+  }).join("");
+}
+
+/* PRODUCT DETAIL */
+
+function openProductDetail(id) {
+
+  const product = products.find(item => item.id === id);
+
+  if (!product) return;
+
+  const image = product.image
+    ? `<img class="detail-image"
+            src="${product.image}"
+            alt="${escapeHTML(product.name)}">`
+    : `<div class="no-image" style="height:180px">♡</div>`;
+
+  $("productDetailContent").innerHTML = `
+
+    ${image}
+
+    <h3 class="section-title" style="margin-top:15px">
+      ${escapeHTML(product.name)}
+    </h3>
+
+    <div class="product-badges" style="position:static;margin:8px 0">
+      ${getBadges(product)}
+    </div>
+
+    <div class="product-tags">
+      ${(product.tags || []).map(tag => `
+        <span class="product-tag">${escapeHTML(tag)}</span>
+      `).join("")}
+    </div>
+
+    <div class="product-price">
+      ฿${money(product.price)}
+    </div>
+
+    <div class="detail-description">
+      ${escapeHTML(product.description || "ไม่มีรายละเอียดสินค้า")}
+    </div>
+
+    <button class="btn btn-primary btn-block"
+      onclick="addToCart('${product.id}');closeProductDetail()">
+      ♡ เพิ่มสินค้าลงตะกร้า
+    </button>
+  `;
+
+  $("productDetailModal").classList.remove("hidden");
+}
+
+function closeProductDetail() {
+  $("productDetailModal").classList.add("hidden");
+}
+
+/* CART SYSTEM */
+
+function addToCart(id) {
+
+  const product = products.find(item => item.id === id);
+
+  if (!product) {
+    showToast("ไม่พบสินค้านี้");
+    return;
+  }
+
+  if (!cart[id]) {
+    cart[id] = {
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image || "",
+      quantity: 0
+    };
+  }
+
+  cart[id].quantity++;
+
+  renderCart();
+
+  showToast("เพิ่มสินค้าลงตะกร้าแล้ว ♡");
+}
+
+function changeQuantity(id, amount) {
+
+  if (!cart[id]) return;
+
+  cart[id].quantity += amount;
+
+  if (cart[id].quantity <= 0) {
+    delete cart[id];
+  }
+
+  renderCart();
+}
+
+function removeCartItem(id) {
+  delete cart[id];
+  renderCart();
+}
+
+function getCartItems() {
+  return Object.values(cart).filter(item => item.quantity > 0);
+}
+
+function getCartQuantity() {
+  return getCartItems().reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+}
+
+function getCartTotal() {
+  return getCartItems().reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+}
+
+function renderCart() {
+
+  const items = getCartItems();
+  const total = getCartTotal();
+  const quantity = getCartQuantity();
+
+  $("navCartCount").textContent = quantity;
+  $("navCartCount").classList.toggle("hidden", quantity === 0);
+
+  $("cartQuantity").textContent = quantity + " ชิ้น";
+  $("cartTotal").textContent = "฿" + money(total);
+
+  $("cartEmpty").classList.toggle("hidden", items.length > 0);
+  $("cartSummary").classList.toggle("hidden", items.length === 0);
+
+  $("cartItems").innerHTML = items.map(item => `
+
+    <div class="cart-row">
+
+      ${
+        item.image
+          ? `<img class="cart-thumb"
+                  src="${item.image}"
+                  alt="">`
+          : `<div class="cart-thumb no-image">♡</div>`
+      }
+
+      <div class="cart-main">
+
+        <div class="cart-name">
+          ${escapeHTML(item.name)}
+        </div>
+
+        <div class="cart-price">
+          ฿${money(item.price)} / ชิ้น
+        </div>
+
+        <div class="quantity-control">
+
+          <button onclick="changeQuantity('${item.id}',-1)">
+            −
+          </button>
+
+          <span>${item.quantity}</span>
+
+          <button onclick="changeQuantity('${item.id}',1)">
+            +
+          </button>
+
+          <button
+            class="btn-danger"
+            onclick="removeCartItem('${item.id}')"
+            style="width:auto;padding:3px 8px">
+            ลบ
+          </button>
+
+        </div>
+
+      </div>
+
+      <div style="color:var(--pink);font-size:12px">
+        ฿${money(item.price * item.quantity)}
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+/* PAGE NAVIGATION */
+
+function showPage(pageId) {
+
+  ["shopPage","cartPage","settingsPage"].forEach(id => {
+    $(id).classList.toggle("hidden", id !== pageId);
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === pageId
+    );
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+/* EVENT LISTENERS */
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.page);
+  });
+});
+
+$("searchInput").addEventListener("input", renderProducts);
+
+$("tagFilters").addEventListener("click", event => {
+
+  const button = event.target.closest("[data-tag]");
+
+  if (!button) return;
+
+  selectedTag = button.dataset.tag;
+
+  renderProducts();
+});
+
+$("closeDetailBtn").addEventListener(
+  "click",
+  closeProductDetail
+);
+
+$("productDetailModal").addEventListener("click", event => {
+  if (event.target === $("productDetailModal")) {
+    closeProductDetail();
+  }
+});
+
+$("createReceiptBtn").addEventListener("click", () => {
+  createReceipt();
+});
+
+  </script>
+  
+<script>
+/* =========================================
+   PART 4 : ADMIN + RECEIPT + FINAL
+========================================= */
+
+/* ADMIN LOGIN */
+
+const ADMIN_PASSWORD = "JR1234";
+
+$("adminLoginBtn").addEventListener("click", () => {
+
+  const password = $("adminPassword").value;
+
+  if (password !== ADMIN_PASSWORD) {
+    showToast("รหัสผ่านไม่ถูกต้อง");
+    return;
+  }
+
+  adminLoggedIn = true;
+
+  $("adminLoginArea").classList.add("hidden");
+  $("adminDashboard").classList.remove("hidden");
+  $("adminPassword").value = "";
+
+  renderAdminProducts();
+  renderAdminContacts();
+  renderHistory();
+
+  showToast("เข้าสู่ระบบแอดมินสำเร็จ ♡");
+});
+
+$("adminLogoutBtn").addEventListener("click", () => {
+
+  adminLoggedIn = false;
+
+  $("adminDashboard").classList.add("hidden");
+  $("adminLoginArea").classList.remove("hidden");
+
+  showToast("ออกจากระบบแล้ว");
+});
+
+/* ADMIN TAB NAVIGATION */
+
+document.querySelectorAll(".admin-tab").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    if (!adminLoggedIn) return;
+
+    const tab = button.dataset.adminTab;
+
+    document.querySelectorAll(".admin-tab").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    const tabs = {
+      products:"adminProductsTab",
+      store:"adminStoreTab",
+      contacts:"adminContactsTab",
+      qr:"adminQrTab",
+      history:"adminHistoryTab"
+    };
+
+    Object.values(tabs).forEach(id => {
+      $(id).classList.add("hidden");
+    });
+
+    $(tabs[tab]).classList.remove("hidden");
+
+    if (tab === "history") renderHistory();
+    if (tab === "products") renderAdminProducts();
+    if (tab === "contacts") renderAdminContacts();
+  });
+
+});
+
+/* ADMIN PERMISSION CHECK */
+
+function requireAdmin() {
+  if (!adminLoggedIn) {
+    showToast("กรุณาเข้าสู่ระบบแอดมินก่อน");
+    return false;
+  }
+  return true;
+}
+
+/* PRODUCT IMAGE UPLOAD */
+
+$("productImageInput").addEventListener("change", async event => {
+
+  const file = event.target.files[0];
+
+  if (!file) {
+    pendingProductImage = null;
+    return;
+  }
+
+  try {
+    pendingProductImage = await compressImage(file);
+    showToast("เลือกรูปสินค้าแล้ว ♡");
+  } catch (error) {
+    showToast(error.message);
+    event.target.value = "";
+  }
+});
+
+/* ADD / EDIT PRODUCT */
+
+$("productForm").addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  if (!requireAdmin()) return;
+
+  const name = $("productNameInput").value.trim();
+  const price = Number($("productPriceInput").value);
+
+  if (!name || !Number.isFinite(price) || price < 0) {
+    showToast("กรุณากรอกชื่อและราคาสินค้าให้ถูกต้อง");
+    return;
+  }
+
+  const editId = $("editProductId").value;
+
+  const existing = editId
+    ? products.find(item => item.id === editId)
+    : null;
+
+  const tags = $("productTagsInput").value
+    .split(",")
+    .map(tag => tag.trim())
+    .filter(Boolean);
+
+  const product = {
+    name,
+    price,
+    image: pendingProductImage ||
+      (existing ? existing.image || "" : ""),
+    description: $("productDescriptionInput").value.trim(),
+    tags,
+    hit: $("badgeHit").checked,
+    recommend: $("badgeRecommend").checked,
+    promotion: $("badgePromotion").checked,
+    drive: safeUrl($("productDriveInput").value)
+  };
+
+  const id = editId || makeId();
+
+  try {
+
+    $("saveProductBtn").disabled = true;
+    $("saveProductBtn").textContent = "กำลังบันทึก...";
+
+    await dbSet(DB.products + "/" + id, product);
+
+    showToast(editId ? "แก้ไขสินค้าเรียบร้อย ♡" : "เพิ่มสินค้าเรียบร้อย ♡");
+
+    resetProductForm();
+
+    await loadAllData();
+
+  } catch (error) {
+    console.error(error);
+    showToast("บันทึกสินค้าไม่สำเร็จ");
+  } finally {
+    $("saveProductBtn").disabled = false;
+    $("saveProductBtn").textContent = "✧ บันทึกสินค้า";
+  }
+});
+
+/* RESET PRODUCT FORM */
+
+function resetProductForm() {
+
+  $("productForm").reset();
+
+  $("editProductId").value = "";
+  $("productImageInput").value = "";
+
+  pendingProductImage = null;
+  editingProduct = null;
+
+  $("saveProductBtn").textContent = "✧ บันทึกสินค้า";
+  $("cancelEditBtn").classList.add("hidden");
+}
+
+$("cancelEditBtn").addEventListener("click", resetProductForm);
+
+/* ADMIN PRODUCT LIST */
+
+function renderAdminProducts() {
+
+  const list = $("adminProductList");
+
+  if (!list) return;
+
+  if (!products.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        ยังไม่มีสินค้า
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = products.map(product => `
+
+    <div class="admin-product-row">
+
+      ${
+        product.image
+          ? `<img src="${product.image}" alt="">`
+          : `<div class="cart-thumb no-image">♡</div>`
+      }
+
+      <div class="admin-product-info">
+
+        <div>${escapeHTML(product.name)}</div>
+
+        <div style="color:var(--pink)">
+          ฿${money(product.price)}
+        </div>
+
+        <div class="muted small">
+          ${(product.tags || []).map(escapeHTML).join(" · ")}
+        </div>
+
+      </div>
+
+      <div class="admin-actions">
+
+        <button
+          class="btn btn-small"
+          onclick="editProduct('${product.id}')">
+          แก้ไข
+        </button>
+
+        <button
+          class="btn btn-danger btn-small"
+          onclick="deleteProduct('${product.id}')">
+          ลบ
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+/* EDIT PRODUCT */
+
+function editProduct(id) {
+
+  if (!requireAdmin()) return;
+
+  const product = products.find(item => item.id === id);
+
+  if (!product) return;
+
+  editingProduct = id;
+
+  $("editProductId").value = id;
+  $("productNameInput").value = product.name || "";
+  $("productPriceInput").value = product.price ?? "";
+  $("productDescriptionInput").value = product.description || "";
+  $("productTagsInput").value = (product.tags || []).join(", ");
+  $("productDriveInput").value = product.drive || "";
+
+  $("badgeHit").checked = !!product.hit;
+  $("badgeRecommend").checked = !!product.recommend;
+  $("badgePromotion").checked = !!product.promotion;
+
+  pendingProductImage = null;
+
+  $("saveProductBtn").textContent = "บันทึกการแก้ไข";
+  $("cancelEditBtn").classList.remove("hidden");
+
+  $("productForm").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+/* DELETE PRODUCT */
+
+async function deleteProduct(id) {
+
+  if (!requireAdmin()) return;
+
+  const product = products.find(item => item.id === id);
+
+  if (!product) return;
+
+  if (!confirm("ต้องการลบสินค้า " + product.name + " หรือไม่?")) {
+    return;
+  }
+
+  try {
+
+    await dbRemove(DB.products + "/" + id);
+
+    delete cart[id];
+
+    await loadAllData();
+
+    showToast("ลบสินค้าเรียบร้อย");
+
+  } catch (error) {
+    console.error(error);
+    showToast("ลบสินค้าไม่สำเร็จ");
+  }
+}
+
+/* STORE SETTINGS */
+
+$("storeAvatarInput").addEventListener("change", async event => {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  try {
+    pendingAvatar = await compressImage(file, 800, 0.8);
+    showToast("เลือกรูปโปรไฟล์แล้ว");
+  } catch (error) {
+    showToast(error.message);
+  }
+});
+
+$("saveStoreBtn").addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  const newData = {
+    name: $("storeNameInput").value.trim() || "JAORICHE STUDIO16",
+    description: $("storeDescriptionInput").value.trim(),
+    avatar: pendingAvatar || storeData.avatar || ""
+  };
+
+  try {
+
+    await dbSet(DB.store, newData);
+
+    storeData = newData;
+    pendingAvatar = null;
+
+    renderStore();
+
+    $("storeAvatarInput").value = "";
+
+    showToast("บันทึกข้อมูลร้านแล้ว ♡");
+
+  } catch (error) {
+    console.error(error);
+    showToast("บันทึกข้อมูลร้านไม่สำเร็จ");
+  }
+});
+
+/* CONTACT MANAGEMENT */
+
+$("contactForm").addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  if (!requireAdmin()) return;
+
+  const name = $("contactNameInput").value.trim();
+  const icon = $("contactIconInput").value.trim() || "♡";
+  const url = safeUrl($("contactUrlInput").value);
+
+  if (!url) {
+    showToast("กรุณาใส่ลิงก์ HTTP หรือ HTTPS");
+    return;
+  }
+
+  const id = makeId();
+
+  try {
+
+    await dbSet(DB.contacts + "/" + id, {
+      name,
+      icon,
+      url
+    });
+
+    $("contactForm").reset();
+
+    await loadAllData();
+
+    showToast("เพิ่มช่องทางติดต่อแล้ว ♡");
+
+  } catch (error) {
+    console.error(error);
+    showToast("เพิ่มช่องทางติดต่อไม่สำเร็จ");
+  }
+});
+
+async function deleteContact(id) {
+
+  if (!requireAdmin()) return;
+
+  if (!confirm("ลบช่องทางติดต่อรายการนี้หรือไม่?")) return;
+
+  try {
+
+    await dbRemove(DB.contacts + "/" + id);
+
+    await loadAllData();
+
+    showToast("ลบช่องทางติดต่อแล้ว");
+
+  } catch (error) {
+    console.error(error);
+    showToast("ลบไม่สำเร็จ");
+  }
+}
+
+/* QR CODE SETTINGS */
+
+$("qrImageInput").addEventListener("change", async event => {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  try {
+
+    pendingQR = await compressImage(file, 1200, 0.9);
+
+    $("qrPreview").innerHTML = `
+      <img
+        src="${pendingQR}"
+        style="width:210px;height:210px;object-fit:contain;background:white;padding:6px;border-radius:12px">
+    `;
+
+  } catch (error) {
+    showToast(error.message);
+  }
+});
+
+function renderReceiptQRPreview() {
+
+  if (qrImage) {
+
+    $("qrPreview").innerHTML = `
+      <img
+        src="${qrImage}"
+        style="width:190px;height:190px;object-fit:contain;background:white;padding:6px;border-radius:12px">
+    `;
+
+  } else if ($("qrPreview")) {
+
+    $("qrPreview").innerHTML =
+      '<div class="muted small">ยังไม่ได้เพิ่ม QR Code</div>';
+
+  }
+}
+
+$("saveQrBtn").addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  const link = safeUrl($("qrUrlInput").value);
+
+  const newQR = pendingQR || link;
+
+  if (!newQR) {
+    showToast("กรุณาอัปโหลด QR Code หรือใส่ลิงก์");
+    return;
+  }
+
+  try {
+
+    await dbSet(DB.qr, newQR);
+
+    qrImage = newQR;
+    pendingQR = null;
+
+    $("qrImageInput").value = "";
+
+    renderReceiptQRPreview();
+
+    showToast("บันทึก QR Code แล้ว ♡");
+
+  } catch (error) {
+    console.error(error);
+    showToast("บันทึก QR Code ไม่สำเร็จ");
+  }
+});
+
+/* RECEIPT GENERATION */
+
+function createReceipt() {
+
+  const items = getCartItems();
+
+  if (!items.length) {
+    showToast("กรุณาเลือกสินค้าก่อน");
+    return;
+  }
+
+  const total = getCartTotal();
+  const quantity = getCartQuantity();
+
+  const now = new Date();
+
+  const receiptId =
+    "JR-" +
+    now.getFullYear() +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0") +
+    "-" +
+    Math.random().toString(36).slice(2, 7).toUpperCase();
+
+  currentReceipt = {
+    id: receiptId,
+    date: now.toISOString(),
+    items: items.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: Number(item.price),
+      quantity: Number(item.quantity),
+      subtotal: item.price * item.quantity
+    })),
+    quantity,
+    total,
+    shopName: storeData.name
+  };
+
+  $("receiptShopName").textContent =
+    storeData.name || "JAORICHE STUDIO16";
+
+  if (storeData.avatar) {
+    $("receiptLogo").src = storeData.avatar;
+    $("receiptLogo").classList.remove("hidden");
+  } else {
+    $("receiptLogo").classList.add("hidden");
+  }
+
+  $("receiptNumber").textContent =
+    "RECEIPT NO. " + receiptId;
+
+  $("receiptDate").textContent =
+    now.toLocaleString("th-TH");
+
+  $("receiptQuantity").textContent =
+    quantity + " ชิ้น";
+
+  $("receiptTotal").textContent =
+    "฿" + money(total);
+
+  $("receiptItems").innerHTML = items.map(item => `
+
+    <div class="receipt-item">
+
+      <span>
+        ${escapeHTML(item.name)}
+        <br>
+        <span style="color:#c5a9c9">
+          ${item.quantity} × ฿${money(item.price)}
+        </span>
+      </span>
+
+      <span>
+        ฿${money(item.price * item.quantity)}
+      </span>
+
+    </div>
+
+  `).join("");
+
+  if (qrImage) {
+    $("receiptQrImage").src = qrImage;
+    $("receiptQrArea").classList.remove("hidden");
+  } else {
+    $("receiptQrArea").classList.add("hidden");
+  }
+
+  $("receiptModal").classList.remove("hidden");
+}
+
+/* CLOSE RECEIPT */
+
+function closeReceiptModal() {
+  $("receiptModal").classList.add("hidden");
+}
+
+$("closeReceiptBtn").addEventListener(
+  "click",
+  closeReceiptModal
+);
+
+$("finishReceiptBtn").addEventListener(
+  "click",
+  closeReceiptModal
+);
+
+$("receiptModal").addEventListener("click", event => {
+
+  if (event.target === $("receiptModal")) {
+    closeReceiptModal();
+  }
+
+});
+
+/* DOWNLOAD RECEIPT IMAGE */
+
+let receiptSaving = false;
+
+$("downloadReceiptBtn").addEventListener("click", async () => {
+
+  if (!currentReceipt || receiptSaving) return;
+
+  if (typeof html2canvas !== "function") {
+    showToast("ระบบสร้างรูปภาพยังไม่พร้อม");
+    return;
+  }
+
+  receiptSaving = true;
+
+  const button = $("downloadReceiptBtn");
+
+  button.disabled = true;
+  button.textContent = "กำลังสร้างรูปใบเสร็จ...";
+
+  try {
+
+    const element = $("receiptContent");
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: "#17111f",
+      useCORS: true,
+      logging: false
+    });
+
+    const image = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+
+    link.download = currentReceipt.id + ".png";
+    link.href = image;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    /*
+      บันทึกประวัติใบเสร็จลง Firebase
+      ไม่เก็บภาพใบเสร็จทั้งภาพเพื่อลดขนาดฐานข้อมูล
+    */
+
+    await dbSet(
+      DB.receipts + "/" + currentReceipt.id,
+      currentReceipt
+    );
+
+    /*
+      ล้างตะกร้าเมื่อดาวน์โหลดและบันทึก
+      ประวัติสำเร็จแล้วเท่านั้น
+    */
+
+    cart = {};
+
+    renderCart();
+
+    showToast("บันทึกใบเสร็จแล้ว ♡ ล้างตะกร้าเรียบร้อย");
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "บันทึกไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อและ Firebase Rules"
+    );
+
+  } finally {
+
+    receiptSaving = false;
+
+    button.disabled = false;
+    button.textContent = "↓ บันทึกรูปใบเสร็จลงเครื่อง";
+
+  }
+
+});
+
+/* RECEIPT HISTORY */
+
+async function renderHistory() {
+
+  if (!adminLoggedIn) return;
+
+  const list = $("receiptHistory");
+
+  list.innerHTML = `
+    <div class="loading">กำลังโหลดประวัติ...</div>
+  `;
+
+  try {
+
+    const data = await dbGet(DB.receipts);
+
+    if (!data || !Object.keys(data).length) {
+
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="symbol">♡</div>
+          ยังไม่มีประวัติใบเสร็จ
+        </div>
+      `;
+
+      return;
+    }
+
+    const history = Object.entries(data)
+      .map(([id, receipt]) => ({
+        id,
+        ...receipt
+      }))
+      .sort((a,b) =>
+        new Date(b.date).getTime() -
+        new Date(a.date).getTime()
+      );
+
+    list.innerHTML = history.map(receipt => `
+
+      <div class="history-row">
+
+        <div class="history-info">
+
+          <div style="color:var(--pink);font-weight:600">
+            ${escapeHTML(receipt.id)}
+          </div>
+
+          <div class="muted small">
+            ${new Date(receipt.date).toLocaleString("th-TH")}
+          </div>
+
+          <div class="small">
+            ${Number(receipt.quantity || 0)} ชิ้น
+            ·
+            ฿${money(receipt.total)}
+          </div>
+
+        </div>
+
+        <button
+          class="btn btn-danger btn-small"
+          onclick="deleteReceipt('${receipt.id}')">
+          ลบ
+        </button>
+
+      </div>
+
+    `).join("");
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="empty-state">
+        โหลดประวัติไม่สำเร็จ
+      </div>
+    `;
+  }
+}
+
+async function deleteReceipt(id) {
+
+  if (!requireAdmin()) return;
+
+  if (!confirm("ต้องการลบประวัติใบเสร็จนี้หรือไม่?")) return;
+
+  try {
+
+    await dbRemove(DB.receipts + "/" + id);
+
+    await renderHistory();
+
+    showToast("ลบประวัติแล้ว");
+
+  } catch (error) {
+    console.error(error);
+    showToast("ลบประวัติไม่สำเร็จ");
+  }
+}
+
+/* CLEAR RECEIPT HISTORY */
+
+$("clearHistoryBtn").addEventListener("click", async () => {
+
+  if (!requireAdmin()) return;
+
+  if (!confirm("ยืนยันลบประวัติใบเสร็จทั้งหมดหรือไม่?")) {
+    return;
+  }
+
+  try {
+
+    await dbRemove(DB.receipts);
+
+    await renderHistory();
+
+    showToast("ลบประวัติใบเสร็จทั้งหมดแล้ว");
+
+  } catch (error) {
+
+    console.error(error);
+    showToast("ลบประวัติไม่สำเร็จ");
+
+  }
+});
+
+/* KEYBOARD */
+
+$("adminPassword").addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    $("adminLoginBtn").click();
+  }
+
+});
+
+/* START APPLICATION */
+
+async function startApp() {
+
+  if (!firebaseReady || !db) {
+
+    $("productGrid").innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="symbol">☾</div>
+        เชื่อมต่อ Firebase ไม่สำเร็จ
+      </div>
+    `;
+
+    showToast("กรุณาตรวจสอบ Firebase Configuration");
+
+    return;
+  }
+
+  await loadAllData();
+
+}
+
+/* INITIALIZE */
+
+document.addEventListener("DOMContentLoaded", startApp);
+
+</script>
+</body>
+</html>
